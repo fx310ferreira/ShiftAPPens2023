@@ -31,6 +31,3 @@ app.use(files);
 app.listen(process.env.PORT, () => {
   console.log("Runing on port " + process.env.PORT);
 });
-
-
-// endpoints: login, registo,
