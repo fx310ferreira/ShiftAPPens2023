@@ -1,0 +1,70 @@
+.input{
+    width: 70%;
+    height: 4.5rem;
+    padding-bottom: 2rem;
+}
+
+.input input{
+    font-weight: 500;
+    font-size: 1.25rem;
+    color: #2B2B2B;
+    padding: 0.5rem 1rem;
+    height: 2.5rem;
+    width: 90%;
+    cursor: text;
+    background: rgba(49, 118, 222, 0.1);
+    border: rgba(49, 118, 222, 0) 2px solid;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+}
+.input input::placeholder{
+    font-weight: 500;
+    font-size: 1.25rem;
+    color: #C0C0C0;
+}
+
+.input :focus{
+    border: #3176DE 2px solid;
+    outline: none;
+}
+
+.inputError{
+    width: 70%;
+    height: 4.5rem;
+    padding-bottom: 2rem;
+}
+
+.inputError input{
+    font-weight: 500;
+    font-size: 1.25rem;
+    color: #2B2B2B;
+    padding: 0.5rem 1rem;
+    height: 2.5rem;
+    width: 90%;
+    cursor: text;
+    background: rgba(49, 118, 222, 0.1);
+    border: #D2222D 2px solid;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+}
+.inputError input::placeholder{
+    font-weight: 500;
+    font-size: 1.25rem;
+    color: #C0C0C0;
+}
+
+.inputError :focus{
+    border: #3176DE 2px solid;
+    outline: none;
+}
+
+.error{
+    margin-top: 0.4rem;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 0.85rem;
+    line-height: 1rem;
+    display: flex;
+    align-items: center;
+    color: #D2222D;
+}

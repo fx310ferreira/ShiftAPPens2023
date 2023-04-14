@@ -1,0 +1,23 @@
+  .centralCardHeader {
+    height: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  
+.centralCardBody_buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.help_button{
+    color: #3176DE;
+}
+
+.help_button:hover{
+    border-bottom: #3176DE 2px solid;
+    cursor: pointer;
+}
