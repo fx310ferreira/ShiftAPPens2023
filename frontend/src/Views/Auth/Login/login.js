@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import Button from "../../components/Button/buttons";
+import Button from "../../../components/Button/buttons";
 import "./index.css";
 
 function Login() {

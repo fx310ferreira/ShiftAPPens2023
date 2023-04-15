@@ -1,22 +1,34 @@
-import Button from "../../components/Button/buttons";
-import Input from "../../components/Input/input";
+import Button from "../../../components/Button/buttons";
+import Input from "../../../components/Input/input";
 import "./index.css";
 import axios from "axios";
 import { useFormik } from "formik";
-import { loginValidationSchema } from "../../Validations/index";
+import { loginValidationSchema } from "../../../Validations/index";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function LoginIMT() {
   const navigate = useNavigate();
   const [error, setError] = useState("");
-  const onSubmit = (values) => {};
+  const onSubmit = (values) => {
+    axios.post(process.env.REACT_APP_API + "/login/imt", values).then((response) => {
+      localStorage.setItem(
+        "acessToken",
+        JSON.stringify(response.data.access)
+      );
+      navigate("/calendar/driving");
+    })
+    .catch((error) => {
+      setError("Wrong username or password");
+    });
+  };
 
   const { values, handleBlur, handleChange, handleSubmit, errors, touched } =
     useFormik({
       initialValues: {
         username: "",
         password: "",
+        type: "imt"
       },
       validationSchema: loginValidationSchema,
       onSubmit,
@@ -30,7 +42,7 @@ function LoginIMT() {
             <h1>Login</h1>
           </div>
           <div className="centralCardBody">
-            <form className="centralCardBody_form">
+            <form className="centralCardBody_form" onSubmit={handleSubmit}>
               <div className="centralCardBody_inputs">
                 <Input
                   id="username"

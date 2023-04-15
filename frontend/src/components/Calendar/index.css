@@ -1,0 +1,124 @@
+.calendar-container {
+    width: 80%;
+    height: 85vh;
+    border-radius: 4px;
+    position: fixed;
+    right: 1rem;
+    bottom: 1rem;
+  }
+  
+  .calendar-header {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+  }
+
+  .calendar-header h2{
+    width: 20%;
+    font-size: 2rem;
+    color: #3176DE;
+  }
+  
+  .calendar-header button {
+    background-color: transparent;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    outline: none;
+    padding: 0.5rem;
+    width: 2rem;
+    height: 2rem;
+    background-color: #3176DE;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    margin-left: 0.5rem;
+    color: #fff;
+  }
+  
+  .calendar-header h2 {
+    margin: 0;
+  }
+  
+  .calendar-body {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    
+  }
+  
+  .calendar-cell {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    height: 10vh;
+    border: 1px solid #B5B5B5;
+    font-size: 1.50rem;
+    font-weight: 600;
+    color : #636363;
+  }
+  
+  .empty-cell {
+    background-color: #dadada;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+    gap: 2px;
+    flex-direction: column;
+    height: 10vh;
+    border: 1px solid #B5B5B5;
+    font-size: 1.50rem;
+    font-weight:600;
+    color : #636363;
+  }
+  
+  .current-day {
+    background-color: #3176DE;
+    color: #fff;
+    border-radius: 100%;
+    padding: 4px;
+    }
+
+  .week-day{
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    height: 5vh;
+    border-bottom: 1px solid #B5B5B5;
+    font-size: 1.50rem;
+    font-weight: 600;
+    color : #000;
+  }
+
+  .filler-cell-x {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    height: 5vh;
+    border-top: 1px solid #B5B5B5;
+  }
+
+  .filler-cell-x + .filler-cell-x{
+    border-left: 2px solid #B5B5B5;
+  }
+
+  .filler-cell-y {
+    display: flex;
+    border: 1px solid #B5B5B5;
+  }
+
+  .week-day + .week-day{
+    border-left: 2px solid #B5B5B5;
+  }
+
+  .event{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 30%;
+    background-color: #3176DE;
+    color: #fff;
+    border-radius: 8px;
+  }
