@@ -2,24 +2,17 @@ const mongoose = require('mongoose');
 
 mongoose.connect('mongodb://localhost:27017/shiftappens'); 
 
-// Type: teorico, pratico
-const type = {
-  type: String,
-  enum: ['teorico', 'pratico'],
-  required: true,
-}
-
-const date = {
-  type: Date,
-  required: true,
-}
-
 // Schema for users
-const examSchema = mongoose.Schema({
-  type: type,
-  date: date,
-})
+const ExamSchema = mongoose.Schema({
+  type: { type: String, enum: ['teorico', 'pratico'], required: true },
+  date: { type: Date, required: true },
+  status: { type: String, enum: ['passed', 'failed', 'pending'], required: true },
+  approval: { type: String, enum: ['accepted', 'rejected'], required: false },
+  id_student: { type: String, required: true },
+  id_examiner: { type: String, required: true },
+  id_teacher: { type: String, required: false }
+});
 
-const ExamSchema = mongoose.model('Test', examSchema);
+const ExamModel = mongoose.model('Exam', ExamSchema);
 
-module.exports = ExamSchema;
+module.exports = ExamModel;

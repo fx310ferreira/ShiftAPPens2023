@@ -5,32 +5,45 @@ mongoose.connect('mongodb://localhost:27017/shiftappens');
 
 // login schema
 const UserSchema = mongoose.Schema({
-	username: {
-		type: String,
-		required: true,
-		unique: true,
-	},
-	password: {
-		type: String,
-		required: true,
-	}
+	type: { type: String, enum: ['student', 'school', 'imt'], required: true },
+	id: { type: String, required: true, unique: true }
 });
 
-const StudentSchema = extendSchema(UserSchema, {
-	email: {
-		type: String,
-		required: true,
-		unique: true,
-	}
+const AuthenticateSchema = mongoose.Schema({
+	email: { type: String, required: true, unique: true },
+	password: { type: String, required: true }
 });
 
-const SchoolSchema = extendSchema(UserSchema, {});
+const StudentSchema = extendSchema(AuthenticateSchema, {
+	exams: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Exam' }],
+	schedules: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Schedule' }],
+});
 
-const IMTSchema = UserSchema;
+const TeacherSchema = mongoose.Schema({
+	email: { type: String, required: true, unique: true },
+	phone: { type: String, required: true },
+	exams: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Exam' }],
+	schedules: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Schedule' }]
+});
 
-const UserModel = mongoose.model('User', UserSchema);
+const ExaminerSchema = TeacherSchema;
+
+const SchoolSchema = extendSchema(AuthenticateSchema, {
+	name: { type: String },
+	phone: { type: String },
+	teachers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Teachers' }]
+});
+
+const IMTSchema = extendSchema(AuthenticateSchema, {
+	phone: { type: String },
+	examiners: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Examiners' }]
+});
+
 const StudentModel = mongoose.model('Student', StudentSchema);
+const TeacherModel = mongoose.model('Teacher', TeacherSchema);
+const ExaminerModel = mongoose.model('Examiner', ExaminerSchema);
 const SchoolModel = mongoose.model('School', SchoolSchema);
 const IMTModel = mongoose.model('IMT', IMTSchema);
+const UserModel = mongoose.model('User', UserSchema);
 
-module.exports = { UserModel, StudentModel, SchoolModel, IMTModel };
+module.exports = { UserModel, StudentModel, TeacherModel, ExaminerModel, SchoolModel, IMTModel };
