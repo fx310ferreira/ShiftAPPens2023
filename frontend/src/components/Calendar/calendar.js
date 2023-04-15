@@ -28,15 +28,15 @@ const Calendar = () => {
 
     // Add empty cells for days before the first day of the month
     for (let i = firstDayOfMonth-1; i >= 0; i--) {
-      daysArray.push(<div key={`empty_${i+7}`} className="empty-cell">{new Date(currentYear, currentMonth, 0).getDate()-i}</div>);
+      daysArray.push(<div key={`empty_${i+7}`} className="empty-cell">{new Date(currentYear, currentMonth, 0).getDate()-i}<span className="event">helo</span><span className="event">helo</span></div>);
     }
 
     // Add cells for each day of the month
     for (let i = 1; i <= totalDaysInMonth; i++) {
       const isCurrentDay = currentMonth === currentDate.getMonth() && currentYear === currentDate.getFullYear() && i === currentDate.getDate();
       daysArray.push(
-        <div key={i} className={`calendar-cell ${isCurrentDay ? "current-day" : ""}`}>
-          {i}
+        <div key={i} className={`calendar-cell`}>
+          <span className={`${isCurrentDay ? "current-day" : "" }`}>{i}</span>
         </div>
       );
     }

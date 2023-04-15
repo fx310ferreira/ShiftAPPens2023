@@ -28,6 +28,7 @@ function LoginIMT() {
       initialValues: {
         username: "",
         password: "",
+        type: "imt"
       },
       validationSchema: loginValidationSchema,
       onSubmit,
