@@ -1,5 +1,11 @@
 # ShiftAPPens2023 Backend
 
+## Setup
+Run the mongodb server
+```bash
+sudo systemctl start mongod
+```
+
 ## Endpoints
 
 ### POST /login/
@@ -28,21 +34,34 @@
   "schedule": {
     "start": "2021-01-01T00:00:00Z",
     "end": "2021-01-01T00:00:00Z",
-    "status": "<disponivel|conducao|codigo>"
+    "status": "<available|drive|code>"
   }
 }
 ```
 
-<!-- ```json
+### POST /schedules/sym/
+```json
+{
+  "status": "<available|drive|code>",
+  "month": 1,
+  "year": 2021
+}
+```
+
+### POST /add/exam/
+```json
 {
   "type": "<teorico|pratico>",
   "date": "2021-01-01T00:00:00.000Z",
   "status": "<pending|passed|failed>",
-  "id_student": "string",
-  "id_examiner": "string",
-  "id_teacher": "string" // optional
+  "approval": "<accepted|rejected>"
 }
 ```
 
-### GET /get/
-- exams -->
+### POST /exams/ym/
+```json
+{
+  "month": 1,
+  "year": 2021
+}
+```

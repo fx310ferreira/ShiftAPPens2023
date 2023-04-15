@@ -3,6 +3,7 @@ require("../config/passport");
 const express = require("express");
 const { UserModel, StudentModel, TeacherModel, ExaminerModel, SchoolModel, IMTModel } = require("../config/database/UserModel");
 const ScheduleModel = require("../config/database/ScheduleModel");
+const ExamModel = require("../config/database/ExamModel");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
 
@@ -88,28 +89,47 @@ router.post('/add/schedule/', (req, res) => { // look for user
   }
 });
 
-// post request to add exam to student, examiner (and teacher [optional])
-router.post('/add/exam/', async (req, res) => {
-  const user = await StudentModel.findById(req.body.studentId);
-  const examiner = await ExaminerModel.findById(req.body.examinerId);
-  const teacher = await TeacherModel.findById(req.body.teacherId);
-  if (!user || !examiner) return res.status(401).send({ sucess: false, message: "Invalid request!" });
-
-  user.exams.push(req.body);
-  examiner.exams.push(req.body);
-  if (teacher) {
-    teacher.exams.push(req.body);
-    teacher.save();
-  }
-  user.save();
-  examiner.save();
-
-  return res.status(200).send({ sucess: true, message: "Exam added!" });
+/* GET request to get schedules */
+router.get('/schedules', (req, res) => {
+  ScheduleModel.find({})
+  .then((schedules) => res.status(200).send(schedules))
+  .catch((err) => res.status(401).send({ sucess: false, message: "Getting schedules!" }));
 });
 
-// get all exams using imt token
-router.get('/exams', passport.authenticate('jwt', { session: false }), (req, res) => {
-  console.log(req.headers);
+/* POST request to get schedules by status, month and year */
+router.post('/schedules/sym', (req, res) => {
+  ScheduleModel.find({})
+  .then((schedules) => {
+    const schedulesStatus = schedules.filter((schedule) => {
+      const scheduleDate = new Date(schedule.start);
+      return (scheduleDate.getMonth() == req.body.month) && (scheduleDate.getFullYear() == req.body.year) && (schedule.status == req.body.status);
+    });
+    res.status(200).send(schedulesStatus);
+  }).catch((err) => res.status(401).send({ sucess: false, message: "Getting schedules!" }));
+});
+
+/* POST request to add exam */
+router.post('/add/exam/', async (req, res) => {
+  ExamModel.create(req.body)
+  .then((exam) => res.status(200).send({ sucess: true, message: "Exam added!" }))
+  .catch((err) => res.status(401).send({ sucess: false, message: "Adding exam!" }));
+});
+
+/* GET request to get exams */
+router.get('/exams', (req, res) => {
+  ExamModel.find({}).then((exams) => res.status(200).send(exams)).catch((err) => res.status(401).send({ sucess: false, message: "Getting exams!" }));
+});
+
+/* GET request to get exams by month */
+router.post('/exams/ym', (req, res) => {
+  ExamModel.find({})
+  .then((exams) => {
+    const examsByMonth = exams.filter((exam) => {
+      const examDate = new Date(exam.date);
+      return (examDate.getMonth() == req.body.month) && (examDate.getFullYear() == req.body.year);
+    });
+    res.status(200).send(examsByMonth);
+  }).catch((err) => res.status(401).send({ sucess: false, message: "Getting exams!" }));
 });
 
 module.exports = router;
