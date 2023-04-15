@@ -3,51 +3,37 @@
 ## Endpoints
 
 ### POST /login/
-- student
-- school
-- imt
 ```json
-// Request body: (for everyone)
 {
+  "type": "<student|school|imt>",
   "email": "string",
   "password": "string"
 }
 ```
 
 ### POST /register/
-- student
-- school
 ```json
-// Request body: (student and school)
 {
+  "type": "<student|school>",
   "email": "string",
   "password": "string"
 }
 ```
-- teacher
-- examiner
+
+### POST /add/schedule/
 ```json
-// Request body: (teacher and examiner)
 {
-  "email": "string",
-  "phone": "string",
+  "email": "email",
+  "type": "<student|teacher|examiner>",
+  "schedule": {
+    "start": "2021-01-01T00:00:00Z",
+    "end": "2021-01-01T00:00:00Z",
+    "status": "<disponivel|conducao|codigo>"
+  }
 }
 ```
 
-### POST /add/
-- schedule
-```json
-// Request body: (adding for student, teacher, examiner)
-{
-  "id": "string",
-  "start": "2021-01-01T00:00:00.000Z",
-  "end": "2021-01-01T00:00:00.000Z",
-  "status": "<disponivel|conducao|codigo>"
-}
-```
-- exam
-```json
-// Request body: (for everyone)
+<!-- ```json
 {
   "type": "<teorico|pratico>",
   "date": "2021-01-01T00:00:00.000Z",
@@ -59,4 +45,4 @@
 ```
 
 ### GET /get/
-- exams
+- exams -->
