@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import Calendar from "../../../components/Calendar/calendar";
 import axios from "axios";
 
-function CalendarDriving() {
+function CalendarCode() {
   const navigate = useNavigate();
   const [state, setState] = useState(false);
   const [schedules, setSchedules] = useState([]);
@@ -25,32 +25,32 @@ function CalendarDriving() {
         // navigate("/login")
       })
       // eslint-disable-next-line
-    },[]);
-  
+    }, []);
+
     useEffect(() => {
-     const values = {
-      "status": "drive",
-      "month": 3,
-      "year": 2023
-    };  
-    axios.post(process.env.REACT_APP_API + "/schedules/sym", values).then((response) => {
-      setSchedules(response.data);
-      setState(true);
-      console.log(response.data);
-    })
-    .catch((error) => {
-      console.log(error);
-    })
-  }, []);
+      const values = {
+       "status": "code",
+       "month": 3,
+       "year": 2023
+     };  
+     axios.post(process.env.REACT_APP_API + "/schedules/sym", values).then((response) => {
+       setSchedules(response.data);
+       setState(true);
+       console.log(response.data);
+     })
+     .catch((error) => {
+       console.log(error);
+     })
+   }, []);
 
   return (
     <> 
-      <Sidebar blue/>
+      <Sidebar purple/>
       <div className="calendarContainer">
-        {state && <Calendar schedules={schedules} blue/>}
+        {state && <Calendar schedules={schedules} purple/>}
       </div>
     </>
   );
 }
 
-export default CalendarDriving;
+export default CalendarCode;

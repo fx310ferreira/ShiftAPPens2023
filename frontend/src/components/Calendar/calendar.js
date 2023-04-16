@@ -1,11 +1,13 @@
 import { useState } from "react";
 import "./index.css";
 import Modal from "../Modal/modal";
+import axios from "axios";
 
-const Calendar = (events) => {
+const Calendar = (props) => {
   const [date, setDate] = useState(new Date());
-  const schedules = events.schedules;
   const [visible, setVisible] = useState(false);
+  const schedules = props.schedules;
+
   const handlePrev = () => {
     setDate(new Date(date.getFullYear(), date.getMonth() - 1, 1));
   };
@@ -22,10 +24,12 @@ const Calendar = (events) => {
     setVisible(true);
   };
 
-  const elements = (day) => {
+  const elements = (day, month, year) => {
     const events = [];
+
     for (let j = 0; j < schedules.length; j++) {
-      if (new Date(schedules[j].start).getDate() === day) {
+      const currentDate = new Date(schedules[j].start)
+      if (currentDate.getDate() === day && currentDate.getMonth() === month) {
         events.push(
           <span
             className={`event ${
@@ -46,6 +50,22 @@ const Calendar = (events) => {
     }
     return events;
   };
+  const value = {
+    "email":"ola@adeus.com",
+    "type":"student",
+    "schedule": {
+      "start": "2023-04-14T12:00:00", 
+      "end": "2023-04-15T13:00:00",
+      "status": "available"
+  }}
+
+  const addSchedule = () =>{
+    axios.post(process.env.REACT_APP_API + "/add/schedule", value).then((res)=>{
+      //Temporaray
+    }).catch((err)=>{
+      console.log(err);
+    })
+  }
 
   const renderCalendar = () => {
     const days = ["dom.", "seg.", "ter.", "qua.", "qui.", "sex.", "sáb."];
@@ -74,7 +94,7 @@ const Calendar = (events) => {
       let day = new Date(currentYear, currentMonth, 0).getDate() - i;
       daysArray.push(
         <div key={`empty_${i + 7}`} className="empty-cell">
-          <span>{day}</span> {elements(day)}
+          <span className="day">{day}</span> {elements(day, currentMonth-1, currentYear)}
         </div>
       );
     }
@@ -87,8 +107,8 @@ const Calendar = (events) => {
         i === currentDate.getDate();
       daysArray.push(
         <div key={i} className={`calendar-cell`}>
-          <span className={`${isCurrentDay ? "current-day" : ""}`}>{i} </span>
-          {elements(i)}
+          <span className={`${isCurrentDay ? "current-day" : "day"}`}>{i} </span>
+          {elements(i, currentMonth, currentYear)}
         </div>
       );
     }
@@ -96,9 +116,11 @@ const Calendar = (events) => {
     while (daysArray.length < 49) {
       daysArray.push(
         <div key={`empty_${daysArray.length}`} className="empty-cell">
-          {i++}
+          <span className="day">{i}</span>
+          {elements(i,currentMonth+1, currentYear)}
         </div>
       );
+      i++;
     }
 
     for (let i = 0; i < 7; i++) {
@@ -109,14 +131,13 @@ const Calendar = (events) => {
 
     return daysArray;
   };
-
   return (
     <div className="calendar-container">
       <Modal show={visible} handleClose={handleClose}>
         <p>Modal</p>
       </Modal>
       <div className="calendar-header">
-        <h2>
+        <h2 className={`calendar-header-title ${props.blue ? "titleblue" : props.green? "titlegreen" : props.purple? "titlepurple" : ''}`}>
           {date
             .toLocaleString("pt-PT", { month: "long", year: "numeric" })
             .charAt(0)
@@ -125,8 +146,14 @@ const Calendar = (events) => {
               .toLocaleString("pt-PT", { month: "long", year: "numeric" })
               .slice(1)}
         </h2>
-        <button onClick={handlePrev}>&lt;</button>
-        <button onClick={handleNext}>&gt;</button>
+        <button onClick={handlePrev} className={`calendar-header-button ${props.blue ? "buttonblue" : props.green? "buttongreen" : props.purple? "buttonpurple" : ''}`}>&lt;</button>
+        <button onClick={handleNext} className={`calendar-header-button ${props.blue ? "buttonblue" : props.green? "buttongreen" : props.purple? "buttonpurple" : ''}`}>&gt;</button>
+        {props.schedules === "available" &&
+        <>
+          <h2 className={`calendar-header-add titlegreen`}>Disponibilidade</h2>
+          <button onClick={addSchedule} className={`calendar-header-button ${props.blue ? "buttonblue" : props.green? "buttongreen" : props.purple? "buttonpurple" : ''}`}>+</button>
+        </>
+        }
       </div>
       <div className="calendar-body">{renderCalendar()}</div>
     </div>

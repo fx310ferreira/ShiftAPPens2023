@@ -13,13 +13,31 @@
     padding: 8px;
   }
 
-  .calendar-header h2{
+  .calendar-header-title{
     width: 20%;
     font-size: 2rem;
+    margin: 0;
+  }
+
+  .calendar-header-add{
+    font-size: 2rem;
+    margin-right: 0.5rem;
+    margin-left: auto;
+  }
+
+  .titleblue{
     color: #3176DE;
   }
+
+  .titlegreen{
+    color: #08AC71;
+  }
+
+  .titlepurple{
+    color: #553DB5
+  }
   
-  .calendar-header button {
+  .calendar-header-button {
     background-color: transparent;
     border: none;
     font-size: 16px;
@@ -28,7 +46,6 @@
     padding: 0.5rem;
     width: 2rem;
     height: 2rem;
-    background-color: #3176DE;
     border-radius: 0.5rem;
     display: flex;
     align-items: center;
@@ -36,10 +53,19 @@
     font-weight: 700;
     margin-left: 0.5rem;
     color: #fff;
+    background-color: #000;
   }
-  
-  .calendar-header h2 {
-    margin: 0;
+
+  .buttonblue{
+    background-color: #3176DE;
+  }
+
+  .buttongreen{
+    background-color: #08AC71;
+  }
+
+  .buttonpurple{
+    background-color: #553DB5
   }
   
   .calendar-body {
@@ -85,13 +111,6 @@
   .empty-cell::-webkit-scrollbar{
     display: none;
   }
-  
-  .current-day {
-    background-color: #3176DE;
-    color: #fff;
-    border-radius: 100%;
-    padding: 4px;
-    }
 
   .week-day{
     display: flex;
@@ -147,3 +166,14 @@
   .green{
     background-color:  #08AC71CC;
   }
+
+  .day{
+    padding-right: 4px;
+  }
+
+  .current-day {
+    background-color: #3176DE;
+    color: #fff;
+    border-radius: 100%;
+    padding: 4px;
+    }
