@@ -6,6 +6,7 @@ import axios from "axios";
 const Calendar = (props) => {
   const [date, setDate] = useState(new Date());
   const [visible, setVisible] = useState(false);
+  const [id, setId] = useState("");
   const schedules = props.schedules;
 
   const handlePrev = () => {
@@ -21,6 +22,7 @@ const Calendar = (props) => {
   };
 
   const openModal = (id) => {
+    setId(id);
     setVisible(true);
   };
 
@@ -40,7 +42,7 @@ const Calendar = (props) => {
                 : "green"
             }`}
             onClick={() => {
-              openModal(j);
+              openModal(schedules[j]._id);
             }}
           >
             {schedules[j].status}
@@ -54,9 +56,9 @@ const Calendar = (props) => {
     "email":"ola@adeus.com",
     "type":"student",
     "schedule": {
-      "start": "2023-04-14T12:00:00", 
-      "end": "2023-04-15T13:00:00",
-      "status": "available"
+      "start": "2023-04-07T12:00:00", 
+      "end": "2023-04-07T13:00:00",
+      "status": "drive"
   }}
 
   const addSchedule = () =>{
@@ -135,6 +137,7 @@ const Calendar = (props) => {
     <div className="calendar-container">
       <Modal show={visible} handleClose={handleClose}>
         <p>Modal</p>
+        <p>event id {id}</p>
       </Modal>
       <div className="calendar-header">
         <h2 className={`calendar-header-title ${props.blue ? "titleblue" : props.green? "titlegreen" : props.purple? "titlepurple" : ''}`}>
@@ -148,7 +151,7 @@ const Calendar = (props) => {
         </h2>
         <button onClick={handlePrev} className={`calendar-header-button ${props.blue ? "buttonblue" : props.green? "buttongreen" : props.purple? "buttonpurple" : ''}`}>&lt;</button>
         <button onClick={handleNext} className={`calendar-header-button ${props.blue ? "buttonblue" : props.green? "buttongreen" : props.purple? "buttonpurple" : ''}`}>&gt;</button>
-        {props.schedules === "available" &&
+        {props.available &&
         <>
           <h2 className={`calendar-header-add titlegreen`}>Disponibilidade</h2>
           <button onClick={addSchedule} className={`calendar-header-button ${props.blue ? "buttonblue" : props.green? "buttongreen" : props.purple? "buttonpurple" : ''}`}>+</button>

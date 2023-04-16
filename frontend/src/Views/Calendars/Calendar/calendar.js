@@ -27,7 +27,7 @@ function CalendarView() {
       // eslint-disable-next-line
     }, []);
 
-      axios.get(process.env.REACT_APP_API + "/shedules").then((response) => {
+      axios.get(process.env.REACT_APP_API + "/schedules").then((response) => {
         setSchedules(response.data);
         setState(true);
       })

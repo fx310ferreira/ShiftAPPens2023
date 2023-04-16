@@ -7,6 +7,7 @@ import CalendarDriving from './Views/Calendars/Driving/driving';
 import CalendarView from './Views/Calendars/Calendar/calendar';
 import CalendarCode from './Views/Calendars/Code/code';
 import CalendarAvailable from './Views/Calendars/Available/available';
+import Examiners from './Views/Examiners/Examiners/examiners';
 
 function App() {
   return (
@@ -22,7 +23,7 @@ function App() {
         <Route path="/calendar/driving" element={<CalendarDriving />} />
         <Route path="/calendar/theory" element={<CalendarCode />} />
         <Route path="/calendar/times" element={<CalendarAvailable />} />
-        <Route path="/examiners" element={<CalendarView />} />
+        <Route path="/examiners" element={<Examiners />} />
         <Route path="/examiners/times" element={<CalendarView />} />
         <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
