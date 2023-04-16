@@ -26,6 +26,17 @@ sudo systemctl start mongod
 }
 ```
 
+### POST /register/et/
+```json
+{
+  "type": "<teacher|examiner>",
+  "data": {
+    "email": "examiner@test.pt",
+    "phone": "931456789"
+  }
+}
+```
+
 ### POST /add/schedule/
 ```json
 {
@@ -51,7 +62,7 @@ sudo systemctl start mongod
 ### POST /add/exam/
 ```json
 {
-  "type": "<teorico|pratico>",
+  "type": "<code|drive>",
   "date": "2021-01-01T00:00:00.000Z",
   "status": "<pending|passed|failed>",
   "approval": "<accepted|rejected>"
@@ -65,3 +76,9 @@ sudo systemctl start mongod
   "year": 2021
 }
 ```
+
+
+### GET
+- /exams/
+- /schedules/
+- /schedule/:id/

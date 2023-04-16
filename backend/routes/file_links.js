@@ -36,36 +36,31 @@ router.post('/login', (req, res) => {
 /* POST request to register */
 router.post('/register', (req, res) => {
   if (req.body.type == 'student') {
-    StudentModel.create(req.body)
-    .then((user) => {
+    StudentModel.create(req.body).then((user) => {
       UserModel.create({ type: 'student', id: user._id })
       .then((user) => res.status(200).send({ sucess: true, message: "Student created!"}))
       .catch((err) => res.status(401).send({ sucess: false, message: "Creating student!"}));
-    })
-    .catch((err) => res.status(401).send({sucess: false, message: "Creating student!"}));
+    }).catch((err) => res.status(401).send({sucess: false, message: "Creating student!"}));
   } else if (req.body.type == 'school') {
-    SchoolModel.create(req.body)
-    .then((user) => {
+    SchoolModel.create(req.body).then((user) => {
       UserModel.create({ type: 'school', id: user._id })
       .then((user) => res.status(200).send({ sucess: true, message: "School created!"}))
       .catch((err) => res.status(401).send({ sucess: false, message: "Creating school!"}));
-    })
-    .catch((err) => res.status(401).send({sucess: false, message: "Creating school!"}));
+    }).catch((err) => res.status(401).send({sucess: false, message: "Creating school!"}));
   }
 });
 
-// post request to register examiner
-router.post('/register/examiner', (req, res) => {
-  ExaminerModel.create(req.body)
-  .then((user) => res.status(200).send({sucess: true, message: "Examiner created!" }))
-  .catch((err) => res.status(401).send({ sucess: false, message: "ERROR: Creating examiner!" }));
-});
-
-// post request to register school
-router.post('/register/school', (req, res) => {
-  SchoolModel.create(req.body)
-  .then((user) => res.status(200).send({ sucess: true, message: "School created!" }))
-  .catch((err) => res.status(401).send({ sucess: false, message: "ERROR: Creating school!" }));
+/* POST request to register examiner and teacher */
+router.post('/register/et', (req, res) => {
+  if (req.body.type == 'examiner') {
+    ExaminerModel.create(req.body.data)
+    .then((user) => res.status(200).send({ sucess: true, message: "Examiner created!" }))
+    .catch((err) => res.status(401).send({ sucess: false, message: "ERROR: Creating examiner!" }));
+  } else if (req.body.type == 'teacher') {
+    TeacherModel.create(req.body.data)
+    .then((user) => res.status(200).send({ sucess: true, message: "Teacher created!" }))
+    .catch((err) => res.status(401).send({ sucess: false, message: "ERROR: Creating teacher!" }));
+  }
 });
 
 /* POST request to add schedule */
@@ -120,7 +115,7 @@ router.get('/exams', (req, res) => {
   ExamModel.find({}).then((exams) => res.status(200).send(exams)).catch((err) => res.status(401).send({ sucess: false, message: "Getting exams!" }));
 });
 
-/* GET request to get exams by month */
+/* POST request to get exams by month */
 router.post('/exams/ym', (req, res) => {
   ExamModel.find({})
   .then((exams) => {
@@ -130,6 +125,13 @@ router.post('/exams/ym', (req, res) => {
     });
     res.status(200).send(examsByMonth);
   }).catch((err) => res.status(401).send({ sucess: false, message: "Getting exams!" }));
+});
+
+/* GET request to get schedule by id */
+router.get('/schedule/:id', (req, res) => {
+  ScheduleModel.findById(req.params.id)
+  .then((schedule) => res.status(200).send(schedule))
+  .catch((err) => res.status(401).send({ sucess: false, message: "Getting schedule!" }));
 });
 
 module.exports = router;

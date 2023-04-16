@@ -4,7 +4,7 @@ mongoose.connect('mongodb://localhost:27017/shiftappens');
 
 // Schema for users
 const ExamSchema = mongoose.Schema({
-  type: { type: String, enum: ['teorico', 'pratico'], required: true },
+  type: { type: String, enum: ['code', 'drive'], required: true },
   date: { type: Date, required: true },
   status: { type: String, enum: ['passed', 'failed', 'pending'], required: true },
   approval: { type: String, enum: ['accepted', 'rejected'], required: true },
