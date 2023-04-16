@@ -15,6 +15,7 @@ function LoginIMT() {
     if (localStorage.getItem("acessToken")) {
       navigate("/calendar");
     }
+    // eslint-disable-next-line
   }, []);
 
   const onSubmit = (values) => {
@@ -23,7 +24,7 @@ function LoginIMT() {
         "acessToken",
         JSON.stringify(response.data.access)
       );
-      navigate("/calendar/driving");
+      navigate("/calendar");
     })
     .catch((error) => {
       setError("Wrong username or password");
