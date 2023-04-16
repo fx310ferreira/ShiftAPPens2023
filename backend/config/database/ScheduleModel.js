@@ -7,7 +7,7 @@ const ScheduleSchema = mongoose.Schema({
   end: { type: Date, required: true },
   status: { type: String, enum: ['available', 'drive', 'code'], required: true },
   examiner: { type: mongoose.Schema.Types.ObjectId, ref: 'Examiner' }, // not required in initial creation
-  students: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Student' }],
+  student: { type: mongoose.Schema.Types.ObjectId, ref: 'Student' },
   teacher: { type: mongoose.Schema.Types.ObjectId, ref: 'Teacher' }
 });
 
