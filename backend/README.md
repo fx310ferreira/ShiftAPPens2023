@@ -77,6 +77,32 @@ sudo systemctl start mongod
 }
 ```
 
+### POST /connect/school/
+```json
+{
+  "type": "<student|teacher>",
+  "school": "school_email",
+  "email": "<student_email|student_id>"
+}
+```
+
+### POST /exam/approval/
+```json
+{
+  "exam": "exam_id",
+  "approval": "<accepted|rejected>"
+}
+```
+
+### POST /connect/exam/
+```json
+{
+  "exam": "exam_id",
+  "type": "<student|teacher|examiner>",
+  "email": "<student_email|student_id|teacher_email|teacher_id|examiner_email|examiner_id>"
+}
+```
+
 
 ### GET
 - /exams/
