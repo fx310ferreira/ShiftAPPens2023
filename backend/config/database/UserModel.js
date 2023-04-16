@@ -17,21 +17,31 @@ const AuthenticateSchema = mongoose.Schema({
 const StudentSchema = extendSchema(AuthenticateSchema, {
 	exams: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Exam' }],
 	schedules: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Schedule' }],
+	school: { type: mongoose.Schema.Types.ObjectId, ref: 'School' }
 });
 
-const TeacherSchema = mongoose.Schema({
+const PersonSchema = mongoose.Schema({
 	email: { type: String, required: true, unique: true },
 	phone: { type: String, required: true },
 	exams: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Exam' }],
 	schedules: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Schedule' }]
 });
 
-const ExaminerSchema = TeacherSchema;
+const ExaminerSchema = PersonSchema;
+
+const TeacherSchema = extendSchema(PersonSchema, {
+	email: { type: String, required: true, unique: true },
+	phone: { type: String, required: true },
+	exams: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Exam' }],
+	schedules: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Schedule' }],
+	school: { type: mongoose.Schema.Types.ObjectId, ref: 'School' }
+});
 
 const SchoolSchema = extendSchema(AuthenticateSchema, {
 	name: { type: String },
 	phone: { type: String },
-	teachers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Teachers' }]
+	teachers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Teacher' }],
+	students: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Student' }]
 });
 
 const IMTSchema = extendSchema(AuthenticateSchema, {
