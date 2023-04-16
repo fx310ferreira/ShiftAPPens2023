@@ -63,6 +63,20 @@ router.post('/register/et', (req, res) => {
   }
 });
 
+/* GET request to get examiners */
+router.get('/examiners', (req, res) => {
+  ExaminerModel.find({})
+  .then((examiners) => res.status(200).send(examiners))
+  .catch((err) => res.status(401).send({ sucess: false, message: "Getting examiners!" }));
+});
+
+/* GET request to get teachers */
+router.get('/teachers', (req, res) => {
+  TeacherModel.find({})
+  .then((teachers) => res.status(200).send(teachers))
+  .catch((err) => res.status(401).send({ sucess: false, message: "Getting teachers!" }));
+});
+
 /* POST request to add schedule */
 const addSchedule = (req, res, user) => {
   if (!user) return res.status(401).send({ sucess: false, message: "User not found!" });

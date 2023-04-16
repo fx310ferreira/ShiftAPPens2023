@@ -82,3 +82,5 @@ sudo systemctl start mongod
 - /exams/
 - /schedules/
 - /schedule/:id/
+- /examiners/
+- /teachers/
