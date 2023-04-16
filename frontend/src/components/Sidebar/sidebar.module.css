@@ -11,6 +11,9 @@
   left: -1rem;
   padding-left: 2.5rem;
   background-color: #3176DE1A;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .headers {

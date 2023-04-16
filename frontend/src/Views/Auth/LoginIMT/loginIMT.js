@@ -4,14 +4,21 @@ import "./index.css";
 import axios from "axios";
 import { useFormik } from "formik";
 import { loginValidationSchema } from "../../../Validations/index";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function LoginIMT() {
   const navigate = useNavigate();
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (localStorage.getItem("acessToken")) {
+      navigate("/calendar");
+    }
+  }, []);
+
   const onSubmit = (values) => {
-    axios.post(process.env.REACT_APP_API + "/login/imt", values).then((response) => {
+    axios.post(process.env.REACT_APP_API + "/login", values).then((response) => {
       localStorage.setItem(
         "acessToken",
         JSON.stringify(response.data.access)
@@ -26,7 +33,7 @@ function LoginIMT() {
   const { values, handleBlur, handleChange, handleSubmit, errors, touched } =
     useFormik({
       initialValues: {
-        username: "",
+        email: "",
         password: "",
         type: "imt"
       },
@@ -45,13 +52,13 @@ function LoginIMT() {
             <form className="centralCardBody_form" onSubmit={handleSubmit}>
               <div className="centralCardBody_inputs">
                 <Input
-                  id="username"
+                  id="email"
                   placeholder="Emailexemplo@imt.pt"
-                  value={values.username}
+                  value={values.email}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  error={(errors.username && touched.username) || error}
-                  errorText={errors.username}
+                  error={(errors.email && touched.email) || error}
+                  errorText={errors.email}
                 />
                 <Input
                   placeholder="Password"
@@ -64,7 +71,7 @@ function LoginIMT() {
                   errorText={errors.password || error}
                 />
               </div>
-              <Button title="Entrar" />
+              <Button title="Entrar" type="submit"/>
             </form>
             <div className="centralCardBody_help">
               <p className="help_label">

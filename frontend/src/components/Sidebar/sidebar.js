@@ -1,7 +1,13 @@
+import Button from "../Button/buttons";
 import styles from "./sidebar.module.css"
 import { Link, useMatch, useNavigate, useResolvedPath } from "react-router-dom";
 
 export default function Sidebar(props) {
+  const navigate = useNavigate();
+  function onLogout(){
+    localStorage.removeItem("acessToken");
+    navigate("/login");
+  }
   return (
       <div className={styles.sidebar}>
         <div className={styles.headers}>
@@ -12,6 +18,7 @@ export default function Sidebar(props) {
           <CustomLink to="/examiners" header="1">Examinadores</CustomLink>
           <CustomLink to="/examiners/times" header="">Horários</CustomLink>
         </div>
+          <Button onClick={onLogout} title="Logout"/>
       </div>
   );
 }
