@@ -1,5 +1,5 @@
 .Button{
-    background: #3176DE;
+    background-color: #3176DE;
     border-radius: 0.5rem;
     display: flex;
     flex-direction: row;
@@ -22,5 +22,5 @@
 }
 
 .Button:active{
-    background: #054BB4;
+    background-color: #054BB4;
 }

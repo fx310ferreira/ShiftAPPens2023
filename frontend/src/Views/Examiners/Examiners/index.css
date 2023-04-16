@@ -1,0 +1,10 @@
+.examinersContainer {
+  height: 100vh;
+  width: 82vw;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}

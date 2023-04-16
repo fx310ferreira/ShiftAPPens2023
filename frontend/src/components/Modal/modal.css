@@ -10,11 +10,15 @@
   .modal-main {
     position:fixed;
     background: white;
-    width: 80%;
-    height: auto;
+    width: 80vw;
+    height: 80vh;
     top:50%;
     left:50%;
     transform: translate(-50%,-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
   }
   
   .display-block {

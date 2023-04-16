@@ -36,7 +36,6 @@ function CalendarCode() {
      axios.post(process.env.REACT_APP_API + "/schedules/sym", values).then((response) => {
        setSchedules(response.data);
        setState(true);
-       console.log(response.data);
      })
      .catch((error) => {
        console.log(error);
