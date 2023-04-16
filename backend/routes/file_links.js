@@ -148,4 +148,101 @@ router.get('/schedule/:id', (req, res) => {
   .catch((err) => res.status(401).send({ sucess: false, message: "Getting schedule!" }));
 });
 
+/* POST request to connect student/teacher to school */
+router.post('/connect/school', (req, res) => {
+  SchoolModel.findOne({ email: req.body.school }).then((school) => {
+    if (!school) return res.status(401).send({ sucess: false, message: "School not found!" });
+    if (req.body.type == 'student') {
+      StudentModel.findOne({ email: req.body.email }).then((student) => {
+        if (!student) return res.status(401).send({ sucess: false, message: "Student not found!" });
+        school.students.push(student);
+        school.save();
+        return res.status(200).send({ sucess: true, message: "Student connected!" });
+      }).catch((err) => res.status(401).send({ sucess: false, message: "Connecting student!" }));
+    } else if (req.body.type == 'teacher') {
+      TeacherModel.findOne({ email: req.body.email }).then((teacher) => {
+        if (!teacher) return res.status(401).send({ sucess: false, message: "Teacher not found!" });
+        school.teachers.push(teacher);
+        school.save();
+        return res.status(200).send({ sucess: true, message: "Teacher connected!" });
+      }).catch((err) => res.status(401).send({ sucess: false, message: "Connecting teacher!" }));
+    }
+  }).catch((err) => res.status(401).send({ sucess: false, message: "Finding school!" }));
+});
+
+/* POST request to change exam approval: 'accepted', 'rejected' */
+router.post('/exam/approval', (req, res) => {
+  ExamModel.findById(req.body.exam).then((exam) => {
+    if (!exam) return res.status(401).send({ sucess: false, message: "Exam not found!" });
+    exam.approval = req.body.approval;
+    exam.save();
+    return res.status(200).send({ sucess: true, message: "Exam approval changed!" });
+  }).catch((err) => res.status(401).send({ sucess: false, message: "Changing exam approval!" }));
+});
+
+/* POST request to connect student/teacher/examiner to exam */
+router.post('/connect/exam', (req, res) => {
+  ExamModel.findById(req.body.exam).then((exam) => {
+    if (!exam) return res.status(401).send({ sucess: false, message: "Exam not found!" });
+    if (req.body.type == 'student') {
+      StudentModel.findOne({ email: req.body.email }).then((student) => {
+        if (!student) return res.status(401).send({ sucess: false, message: "Student not found!" });
+        student.schedules.forEach((s) => {
+          const scheduleDate = new Date(s.start);
+          const examDate = new Date(exam.date);
+          if (scheduleDate.toISOString().slice(0, 13) == examDate.toISOString().slice(0, 13)) {
+            s.student = student;
+            s.status = exam.type;
+            exam.students.push(student);
+            student.exams.push(exam);
+            s.save();
+            exam.save();
+            student.save();
+            return res.status(200).send({ sucess: true, message: "Examiner connected!" });
+          }
+        });
+      }).catch((err) => res.status(401).send({ sucess: false, message: "Connecting student!" }));
+    } else if (req.body.type == 'teacher') {
+      TeacherModel.findOne({ email: req.body.email }).then((teacher) => {
+        if (!teacher) return res.status(401).send({ sucess: false, message: "Teacher not found!" });
+        teacher.schedules.forEach((s) => {
+          const scheduleDate = new Date(s.start);
+          const examDate = new Date(exam.date);
+          if (scheduleDate.toISOString().slice(0, 13) == examDate.toISOString().slice(0, 13)) {
+            s.teacher = teacher;
+            s.status = exam.type;
+            exam.teacher = teacher;
+            teacher.exams.push(exam);
+            s.save();
+            exam.save();
+            teacher.save();
+            return res.status(200).send({ sucess: true, message: "Teacher connected!" });
+          }
+        });
+      }).catch((err) => res.status(401).send({ sucess: false, message: "Connecting teacher!" }));
+    } else if (req.body.type == 'examiner') {
+      ExaminerModel.findOne({ email: req.body.email }).then((examiner) => {
+        if (!examiner) return res.status(401).send({ sucess: false, message: "Examiner not found!" });
+        examiner.schedules.forEach((schedule) => {
+          ScheduleModel.findById(schedule).then((s) => {
+            const scheduleDate = new Date(s.start);
+            const examDate = new Date(exam.date);
+            if (scheduleDate.toISOString().slice(0, 13) == examDate.toISOString().slice(0, 13)) {
+              s.examiner = examiner;
+              s.status = exam.type;
+              exam.examiner = examiner;
+              examiner.exams.push(exam);
+              s.save();
+              exam.save();
+              examiner.save();
+              return res.status(200).send({ sucess: true, message: "Examiner connected!" });
+            }
+            return res.status(401).send({ sucess: false, message: "Examiner is not available!" });
+          }).catch((err) => res.status(401).send({ sucess: false, message: "Could not find schedule!" }));
+        });
+      }).catch((err) => res.status(401).send({ sucess: false, message: "Connecting examiner!" }));
+    }
+  }).catch((err) => res.status(401).send({ sucess: false, message: "Finding exam!" }));
+});
+
 module.exports = router;
